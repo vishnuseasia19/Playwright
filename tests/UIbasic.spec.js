@@ -23,23 +23,39 @@ test('@Web Client App login', async ({ page }) => {
  
 })
 
-test.only("UI Login ", async ({page})=>
+test("UI Login ", async ({page, context})=>
    
 {  
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
     const username=page.locator("#username")
     const password=page.locator("#password") 
     const signIn=page.locator("#signInBtn");
+    const blinkmsg=page.locator('.blinkingText')
     await username.fill(" rahulshettyacademy ");
     await password.fill("Learning@830$3mK2");
    //  await expect(page).check()
    const dropdown=page.locator("select.form-control");
    await dropdown.selectOption('Student');
    await page .locator(".radiotextsty").last().click();
-   console.log( await page .locator(".radiotextsty").last().click().ischecked)
+ //  console.log( await page .locator(".radiotextsty").last().click())
    await page.locator("#okayBtn").click();
    await page.locator("#terms").click();
    await signIn.click();
+   await expect(blinkmsg).toHaveAttribute("class","blinkingText");
+      const [page2] = await Promise.all([
+      
+         context.waitForEvent('page'),
+         blinkmsg.click(),
+      ]);
+
+       const text=await page2.locator(".red").textContent();
+       console.log(text);
+
+
+
+   
+
+ 
    
 
    await page.pause();
@@ -48,30 +64,80 @@ test.only("UI Login ", async ({page})=>
     
 
 });
+//const { test, expect } = require('@playwright/test');
 
-//
-//console.log(await page.locator('[style="display: block;"]').textContent());
+//const { test, expect} = require('@playwright/test');
 
+test("Get email from child and fill in parent", async ({ browser }) => {
 
+   const context = await browser.newContext();
+   const page = await context.newPage();
 
+   // 1️⃣ Open Login Page (Parent)
+   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
 
-// now get text from inner div
+   // 2️⃣ Click blinking text to open child window
+   const documentLink = page.locator(".blinkingText");
 
-// const errorContainer = page.locator('[style="display: block;""]');
+   const [childPage] = await Promise.all([
+      context.waitForEvent('page'),
+      documentLink.click(),
+   ]);
 
-// await expect(errorContainer).toBeVisible();
-// const errorMsg = errorContainer.locator('.user-form-error-msg');
+   // 3️⃣ Wait for child page to load
+   await childPage.waitForLoadState('domcontentloaded');
 
-// console.log(await errorMsg.textContent());
-// await page.waitForTimeout(5000);
+   // 4️⃣ Get email text from child page
+   const text = await childPage.locator(".red").textContent();
+   console.log("Full Text:", text);
+   const arrayText = text.split("@");
+   console.log("Array Text:", arrayText);
+   const domainPart = arrayText[1].split(" ")[0];
+   console.log("Domain Part:", domainPart);
 
+   await page.locator("#username").fill(domainPart);
 
+   console.log(await page.locator("#username").fill(domainPart));
+   // // 5️⃣ Extract email domain
+   // const email = text.split("@")[1].split(" ")[0];
+   // console.log("Extracted Email:", email);
 
-  // await page.getByLabel('Email').fill('vishnu@123');
-  // await page.getByLabel('Password').fill('12345678');
+   // 6️⃣ Switch back to parent page
+   // await page.bringToFront();
 
-  // await page.getByRole('button', { name: 'Log In' }).click();
+   // 7️⃣ Fill extracted email in username field
+   // await page.locator("#username").fill(domainPart);
 
+   // Assertion (optional)
+   await expect(page.locator("#username")).toHaveValue(domainPart);
 
+   await page.pause();
+});
 
-
+test('@Child windows hadl', async ({browser})=>
+ {
+    const context = await browser.newContext();
+    const page =  await context.newPage();
+    const userName = page.locator('#username');
+    await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+    const documentLink = page.locator("[href*='documents-request']");
+ 
+    const [newPage]=await Promise.all(
+   [
+      context.waitForEvent('page'),//listen for any new page pending,rejected,fulfilled
+      documentLink.click(),
+   
+   ])//new page is opened
+   
+ 
+   const  text = await newPage.locator(".red").textContent();
+    const arrayText = text.split("@")
+    const domain =  arrayText[1].split(" ")[0]
+    //console.log(domain);
+    await page.locator("#username").fill(domain);
+    console.log(await page.locator("#username").inputValue());
+    await newPage.pause();
+ 
+ })
+ 
+ 

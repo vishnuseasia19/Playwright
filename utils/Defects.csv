@@ -1,0 +1,21 @@
+ID,Project Name,Sprint Name,Reporter Name,Assignee Name,Created Date,RCA,Linked Issue ID,Issue Type,Defect Type,Injection Phase,Bug Type,Severity,Priority,Summary,Description,Expected Result,Actual Result
+BX-LS-001,Cerina,Milestone 1,Gagan Sharma,Pankaj Kumar,07/07/2025 10:00 AM,Human Error,TC_LS_003,Bug,Internal Defects,Code,Functional,High,High,Login Screen - Login button activates without password entry,"Steps to Reproduce:
+1. Open Login screen.
+2. Enter email only.
+3. Leave password empty.
+4. Observe button.",Button should require both email and password.,Button activated with only email entered.
+BX-LS-002,Cerina,Milestone 1,Gagan Sharma,Pankaj Kumar,07/07/2025 10:00 AM,Human Error,TC_LS_009,Bug,Internal Defects,Code,Functional,High,High,Login Screen - Raw HTTP error shown instead of friendly no-internet message,"Steps to Reproduce:
+1. Enable airplane mode.
+2. Enter credentials.
+3. Tap Login.
+4. Observe error.",User-friendly no-internet error message expected.,Raw HTTP timeout code displayed to user.
+BX-LS-003,Cerina,Milestone 1,Gagan Sharma,Pankaj Kumar,07/07/2025 10:00 AM,Human Error,TC_LS_013,Bug,Internal Defects,Design,Design,Low,Low,Login Screen - Button radius and input border color mismatch with design,"Steps to Reproduce:
+1. Open Login.
+2. Compare button corner radius and input border color with mockup.","Button radius 8px, brand-matched border color.",Button radius 4px; off-brand border color.
+BX-LS-004,Cerina,Milestone 1,Gagan Sharma,Pankaj Kumar,07/07/2025 10:00 AM,Human Error,TC_LS_015,Bug,Internal Defects,UI/UX,UI,Medium,Medium,Login Screen - Keyboard overlaps Login button on small screens,"Steps to Reproduce:
+1. Open Login on iPhone SE.
+2. Tap email field.
+3. Check button accessibility.",Screen should scroll to keep Login button accessible.,Keyboard covered button with no scroll.
+BX-LS-005,Cerina,Milestone 1,Gagan Sharma,Pankaj Kumar,09/07/2025 11:00 AM,Inadequate Tools,TC_LS_014,Bug,External Defects,UI/UX,UI,Low,Low,Login Screen - Input fields slightly misaligned on certain Android OEM skins,"Steps to Reproduce:
+1. Open Login screen on Samsung Galaxy A52.
+2. Observe input field alignment.",Input fields should be uniformly aligned on all Android devices.,Fields slightly left-shifted on Samsung One UI skin.
