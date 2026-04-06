@@ -161,12 +161,35 @@ test.beforeAll(async () => {
 
 
 });
+test('get orders -API', async () => {
+
+  const orderResponse = await apiContext.get(
+    'https://rahulshettyacademy.com/client/api/ecom/order/get-orders-for-customer',
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,   
+        'Content-Type': 'application/json'
+      }
+    }
+  );
+
+  const status = orderResponse.status();
+  console.log("Status:", status);
+
+  const responseText = await orderResponse.text(); 
+  console.log("Raw Response:", responseText);
+
+  expect(status).toBe(200);  // 
+
+  const jsonResponse = JSON.parse(responseText); 
+  console.log("JSON:", jsonResponse);
+});
 
 
 // ✅ MAIN TEST
 test('@Webst Client App login', async ({ page }) => {
 
-  // 🔥 Inject token → skip UI login
+  // Inject token → skip UI login
   await page.addInitScript(value => {
     window.localStorage.setItem('token', value);
   }, token);
